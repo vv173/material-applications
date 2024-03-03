@@ -33,7 +33,7 @@ FROM base as final
 ENV NODE_ENV production
 
 # Install serve to expose application
-RUN npm install -g serve
+RUN npm install -g serve@14.2.1
 
 # Run the application as a non-root user.
 USER node
@@ -50,4 +50,4 @@ COPY --from=build /usr/src/app/build ./build
 EXPOSE 5000
 
 # Run the application.
-CMD serve -s -l 5000 build
+ENTRYPOINT ["serve", "-s", "-l", "5000", "build"]
