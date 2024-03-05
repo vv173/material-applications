@@ -37,7 +37,8 @@ services:
       - backend
       - frontend
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   redis:
     image: redis:7.2.4
     networks:
@@ -55,6 +56,11 @@ services:
       - backend
     volumes:
       - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 networks:
   frontend:
   backend:
